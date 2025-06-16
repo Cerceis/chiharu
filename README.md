@@ -16,4 +16,41 @@
 
 ## まずはここから
 1. Markdownの基本の書き方
-2. 
+2. Github の使い方・UI or CLI
+
+## Git Branches
+```
+- master: Origin
+    - chi: 遅さん用
+    - test: その他テスト
+```
+
+
+## Git usage
+Check current branch
+```
+git branch
+```
+
+Create new branch
+```
+git checkout -b xxx
+```
+
+Switching branch
+```
+git checkout xxx
+```
+
+Delete branch(locally)
+```
+git branch -d xxx
+```
+
+Add, Commit, Push
+```
+git add .
+git commit -m "メッセージはここ"
+git push -u origin xxx
+```
+

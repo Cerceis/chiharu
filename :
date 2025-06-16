@@ -1,9 +1,0 @@
-<template>
-	<div class="grid justify-center align-center h-100">
-		中国将棋
-	</div>
-	<div>
-		Another div
-	</div>
-</template>
-
