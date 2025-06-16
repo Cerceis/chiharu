@@ -18,6 +18,15 @@
 1. Markdownの基本の書き方
 2. Github の使い方・UI or CLI
 
+## コメントタグの使い方
+以下のリストはよく使われているタグ:
+1. TODO:
+2. FIXME:
+3. BUG:
+4. HACK:
+5. NOTE:
+6. WARNING:
+
 ## Git Branches
 ```
 - master: Origin
