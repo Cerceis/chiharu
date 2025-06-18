@@ -69,3 +69,16 @@ git commit -m "メッセージはここ"
 git push -u origin xxx
 ```
 
+## MermaidJS in markdown
+```mermaid
+
+graph TD
+
+A(test)
+B(test2)
+C(test3)
+
+A --> B
+B --> C
+C --> A
+```
