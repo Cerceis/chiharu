@@ -1,9 +1,13 @@
 import { createMemoryHistory, createRouter } from 'vue-router'
 
-import TopPageView from '@/views/TopPageView.vue'
+import StartView from '@/views/StartView.vue';
+import GameView from "@/views/GameView.vue";
+import OverView from "@/views/OverView.vue";
 
 const routes = [
-	{ path: '/', component: TopPageView },
+	{ path: '/', component: StartView },
+	{ path: '/game', component: GameView },
+	{ path: '/over', component: OverView },
 ]
 
 const router = createRouter({
