@@ -6,6 +6,13 @@
 </template>
 
 <script setup lang=ts>
-import { type ShogiLoc } from '@/types';
+import { type ShogiLoc, ShogiLocSchema } from '@/types';
+
+/*
+const shogiLoc: ShogiLoc = {}
+const myFunc = () => {
+	ShogiLocSchema.safeParse().success
+}
+*/
 </script>
 

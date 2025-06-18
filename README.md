@@ -107,6 +107,10 @@ C --> A
             - game.md
             - shoji.ts 
             - global.ts
+        - types/
+            - index.ts
+            - shogiType.ts
+            - gameType.ts
 ```
 
 ## Dev log
@@ -115,4 +119,13 @@ C --> A
 2. GameController <- Object  
 INFO: Game state = processの時だけcallされる
 3. GameController.initBoard(players: Player[], board: GameBoard) -> void
+
+() => {
+    if(!ShogiLocSchema.safeParse(shogi).success){
+        console.log("Error: invalid shogi type");
+        return;
+    }
+    console.log("ok");
+    return;
+}
 
