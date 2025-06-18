@@ -10,13 +10,28 @@
 
 ## ワークフロー
 1. プログラム全体構造設計
+    1. プログラム全体 - vue-router
+    2. Components
+    3. 作業分担
 2. 機能設計
+    1. それぞれのComponentsの機能設計
+    2. 拡張性
 3. 開発
 4. 追加機能の導入
 
 ## まずはここから
 1. Markdownの基本の書き方
 2. Github の使い方・UI or CLI
+3. vue-router
+
+## コメントタグの使い方
+以下のリストはよく使われているタグ:
+1. TODO:
+2. FIXME:
+3. BUG:
+4. HACK:
+5. NOTE:
+6. WARNING:
 
 ## Git Branches
 ```
@@ -54,3 +69,16 @@ git commit -m "メッセージはここ"
 git push -u origin xxx
 ```
 
+## MermaidJS in markdown
+```mermaid
+
+graph TD
+
+A(test)
+B(test2)
+C(test3)
+
+A --> B
+B --> C
+C --> A
+```
