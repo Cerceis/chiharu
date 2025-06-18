@@ -5,3 +5,7 @@
 	</div>
 </template>
 
+<script setup lang=ts>
+import { type ShogiLoc } from '@/types';
+</script>
+

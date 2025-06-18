@@ -69,16 +69,50 @@ git commit -m "メッセージはここ"
 git push -u origin xxx
 ```
 
-## MermaidJS in markdown
+## 画面git checkout
 ```mermaid
 
 graph TD
 
-A(test)
-B(test2)
-C(test3)
+A(StartView)
+B(GameView)
+C(OverView)
 
+* --> A
 A --> B
 B --> C
 C --> A
 ```
+## Project file tree
+```
+- root
+    - App.vue
+    - main.ts
+    - src/
+        - views/
+            - StartView.vue
+            - GameView.vue <- chi
+            - OverView.vue
+        - components/
+            - global/
+                - Clock.vue <- chi
+                - Header.vue <- chi
+            - game/
+                - Shogi.vue
+                - Graveyard.vue　墓 <- chi
+                - GameBoard.vue <- chi
+        ...
+        - logics/
+            - game.ts <- board + game controller : chi
+            - game.md
+            - shoji.ts 
+            - global.ts
+```
+
+## Dev log
+- 2025-06-18
+1. ゲーム画面デザイン作成
+2. GameController <- Object  
+INFO: Game state = processの時だけcallされる
+3. GameController.initBoard(players: Player[], board: GameBoard) -> void
+
