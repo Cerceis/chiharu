@@ -1,48 +1,35 @@
 import { z } from "zod";
 
-export const PlayerColorSchema = z.enum(["Red", "Black"]);
-export type PlayerColor = infer<typeof PlayerColorSchema>;
+export const ShogiTypeSchema = z.enum([
+	"che", "ma", "xiang", "shi", "jiang", "pao", "bing"
+])
+export type ShogiType = z.infer<typeof ShogiTypeSchema>;
 
 export const ShogiLocSchema = z.object({
 	x: z.number(),
 	y: z.number(),
-	color: PlayerColorSchema,
+	// TODO: PlayerColor
 })
 export type ShogiLoc = z.infer<typeof ShogiLocSchema>;
 
-/*
-export type ShogiLoc = {
-	x: number,
-	y: numer
-}
+export const ShogiTemplateSchema = z.object({
+	label: z.string(),
+	shogiType: ShogiTypeSchema,
+	loc: z.array(ShogiLocSchema),
+	shogiMoveId: z.string(),
+	shogiEatId: z.string(),
+});
+export type ShogiTemplate = z.infer<typeof ShogiTemplateSchema>;
 
-const shogi: ShogiLoc = {
-	x: 2,
-	y: 6,
-}
-ShogiLocSchema.safeParse(shogi).success
-
-if(!ShogiLocSchema.safeParse(shogi).success) return
-
-if(isNaN(shogi.x) || isNaN(shogi.y) || shogi.x || shogi.y)
+export const ShogiMapSchema = z.record(ShogiTypeSchema, ShogiTemplateSchema);
+export type ShogiMap = z.infer<typeof ShogiMapSchema>;
 
 
-
-apple "2"
-<input v-model="test" />
-
-const TestSchema = z.string();
-type Test = infer<typeof TestSchema>
-const test: Ref<Test> = ref("")
-
-const myFunc = (a: string) => {
-	if(!TestSchema.safeParse.success) return
-
-	logic.....
-}
-
-myFunc(test.value);
-*/
-
-
+export const ShogiSchema = z.object({
+	id: z.string(),
+	// TODO: PlayerColor
+	type: ShogiTypeSchema,
+	// TODO: move f
+	// TODO: eat f
+})
 
