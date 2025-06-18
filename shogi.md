@@ -48,6 +48,19 @@ const board : Dot[][] =new Array(10).fill(null).map((_,y)=>(
 )))
 ```
 
+```mermaid
+
+graph TD
+a(StartView)
+b(GameView)
+c(overView)
+
+a --> b
+b --> c
+c --> a
+
+```
+
 ### 2.2 プレイヤー情報 / 玩家信息
 ```ts
 interface Player {
