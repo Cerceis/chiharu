@@ -4,7 +4,6 @@
 			<router-view />
 		</v-main>
 	</v-app>
-	<creatnewfile />
 </template>
 
 <script setup lang="ts">
@@ -12,7 +11,7 @@
 // BUG:
 // WARNING:
 // FIXME:
-import creatnewfile from '@/creatnewfile.vue';
+import Header from './components/global/Header.vue';
 </script>
 
 <style scoped>

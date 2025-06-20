@@ -103,7 +103,7 @@ C --> A
                 - GameBoard.vue <- chi
         ...
         - logics/
-            - game.ts <- board + game controller : chi
+            - game.ts <- board +gamecontroller : chi
             - game.md
             - shoji.ts 
             - global.ts

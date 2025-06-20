@@ -12,6 +12,8 @@ import { createApp } from 'vue';
 import '@/assets/css/cerceis.css';
 import 'unfonts.css';
 
+
+
 const app = createApp(App);
 
 registerPlugins(app);
