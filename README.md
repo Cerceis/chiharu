@@ -90,7 +90,7 @@ C --> A
     - main.ts
     - src/
         - views/
-            - StartView.vue
+            - StartView.vue 
             - GameView.vue <- chi
             - OverView.vue
         - components/
@@ -103,9 +103,9 @@ C --> A
                 - GameBoard.vue <- chi
         ...
         - logics/
-            - game.ts <- board +gamecontroller : chi
-            - game.md
-            - shoji.ts 
+            - game.ts <- board + game controller : chi
+            - game.md <- chi
+            - shogi.ts 
             - global.ts
         - types/
             - index.ts
@@ -118,7 +118,8 @@ C --> A
 1. ゲーム画面デザイン作成
 2. GameController <- Object  
 INFO: Game state = processの時だけcallされる
-3. GameController.initBoard(players: Player[], board: GameBoard) -> void
+3. GameController.initBoard(players: Player[], board: GameBoard) -> void  
+目標 GameBoard のrendering
 
 () => {
     if(!ShogiLocSchema.safeParse(shogi).success){

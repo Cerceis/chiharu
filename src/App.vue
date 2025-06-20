@@ -7,11 +7,6 @@
 </template>
 
 <script setup lang="ts">
-// TODO:
-// BUG:
-// WARNING:
-// FIXME:
-import Header from './components/global/Header.vue';
 </script>
 
 <style scoped>

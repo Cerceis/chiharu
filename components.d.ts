@@ -14,5 +14,6 @@ declare module 'vue' {
     Header: typeof import('./src/components/global/Header.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Shogi: typeof import('./src/components/game/Shogi.vue')['default']
   }
 }
