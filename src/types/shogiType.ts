@@ -1,15 +1,5 @@
 import { z } from "zod";
 
-export const ShogiTypeSchema = z.enum([
-	"che", "ma", "xiang", "shi", "jiang", "pao", "bing"
-])
-export type ShogiType = z.infer<typeof ShogiTypeSchema>;
-
-export const ShogiLocSchema = z.object({
-	x: z.number(),
-	y: z.number(),
-	// TODO: PlayerColor
-})
 export type ShogiLoc = z.infer<typeof ShogiLocSchema>;
 
 export const ShogiTemplateSchema = z.object({

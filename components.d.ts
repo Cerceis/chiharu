@@ -8,6 +8,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Clock: typeof import('./src/components/global/Clock.vue')['default']
+    Gameboard: typeof import('./src/components/game/Gameboard.vue')['default']
+    Graveyard: typeof import('./src/components/game/Graveyard.vue')['default']
+    Header: typeof import('./src/components/global/Header.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Shogi: typeof import('./src/components/game/Shogi.vue')['default']

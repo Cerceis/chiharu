@@ -4,7 +4,6 @@
 			<router-view />
 		</v-main>
 	</v-app>
-	<creatnewfile />
 </template>
 
 <script setup lang="ts">
