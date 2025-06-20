@@ -66,14 +66,12 @@ export const createGameController = (): GameController => ({
 });
 
 //生成棋盘和棋盘init
-export const initGame = (): { controller: GameController; board?: GameBoard; players?: Player[] } => {
-    const controller = createGameController();
-    if (controller.state === "Progress") {
-        const board = generateEmptyBoard();
-        const players: Player[] = [];
-        return { controller, board, players };
-    }
-    return { controller }
+export const initGame = () => {
+    createGameController()
+    generateEmptyBoard();
+    const players: Player[] = [];
 
 }
+
+
 

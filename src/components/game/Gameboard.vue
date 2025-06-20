@@ -38,7 +38,7 @@
 import { ref } from 'vue'
 import { generateEmptyBoard, type GameBoard } from '@/logics/game'
 
-const board = ref<GameBoard>(generateEmptyBoard())
+const board = ref<GameBoard>(generateEmptyBoard()) //TODO: global 変数
 
 // 返回特定 class 可以定制标记、线条等
 const getCellClass = (x: number, y: number) => {
