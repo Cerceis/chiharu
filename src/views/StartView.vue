@@ -8,7 +8,7 @@
 				中国将棋
 			</div>
 			<div class="grid ga-3">
-				<v-btn color="primary" @click="$router.replace('/')" >スタート</v-btn>
+				<v-btn color="primary" @click="$router.replace('/game')" >スタート</v-btn>
 				<v-btn color="primary" @click="$router.replace('/test')" >テスト</v-btn>
 			</div>
 		</div>
