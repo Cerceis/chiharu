@@ -1,28 +1,31 @@
 <template>
-    <div class="chessBoard">
-        <!-- 棋盘格子和线条 -->
-        <!---div v-for="(row,y) in  board " class="row">
-            <div v-for="(cell,x) in row" :class="getCellClass(x, y)">
-                <div class="shogi">sh
-                    {{ board[y][x].shogiId || '' }}
+    <div class="board" @click="clearSelection">
+        <div class="chessBoard">
+            <!-----見えるボード-->
+            <div v-for="(i) in 9" class="chessRow">
+                <div v-for="(j) in 8" class="chessCell chessCellCon">
                 </div>
             </div>
-        </div--->
-        
-        
-        <!-----見えるボード-->
-        <div v-for="(row) in 9" class="chessRow">
-            <div v-for="(cell) in 8" class="chessCell chessCellCon">
-            </div>
-        </div>
 
-        <!---駒ボード---->
-        <div class="chessControlCon">
-            <div v-for="(row, y) in board" class="chessRow">
-                <div v-for="(cell, x) in row" class="chessCell chessControlCell">
-                    @
+            <!---駒ボード---->
+            <div class="chessControlCon">
+                <div v-for="(row, y) in board" class="chessRow">
+                    <div v-for="(cell, x) in row" class="chessCell chessControlCell">
+                        <ShogiCom v-if="cell.shogi" :symbol="cell.shogi.label" :size="50"
+                            :color="cell.shogi.color === 'Red' ? 'D32F2F' : '373737'" @click.stop="onShogiSelect(cell.shogi)
+                                " />
+
+                        <div class="hightlight" v-if="selectedShogiMoveList.some(pos => pos.x === x && pos.y === y)"
+                            @click="onCellClick(x, y)"></div>
+                        <div class="eatshogi-hightlight"
+                            v-if="selectedShogiEatList.some(pos => pos.x === x && pos.y === y)"
+                            @click="onCellClickEat(x, y)"></div>
+
+
+
+                    </div>
                 </div>
-            </div>    
+            </div>
         </div>
 
         <!-- 楚河汉界 -->
@@ -35,73 +38,85 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { generateEmptyBoard, type GameBoard } from '@/logics/game'
+import { board, selectedShogi, selectedShogiMoveList, selectedShogiEatList,controller } from '@/stores/gameMap'
+import ShogiCom from "@/components/game/Shogi.vue"
+import { onCellClick } from '@/logics/shogiMove';
+import { onCellClickEat } from '@/logics/shogiEat';
+import type { Shogi } from '@/types';
+function onShogiSelect(shogi: Shogi) {
+    try {
+        if(shogi.color !== controller.value?.turn)return
+        selectedShogi.value = shogi;
+        // 只计算当前棋子合法走法
+        selectedShogiMoveList.value = selectedShogi.value.moveFunc(shogi, board.value!);
+        selectedShogiEatList.value = shogi.eatFunc
+            ? shogi.eatFunc(shogi, board.value!)
+            : [];
 
-const board = ref<GameBoard>(generateEmptyBoard()) //TODO: global 変数
-
-// 返回特定 class 可以定制标记、线条等
-const getCellClass = (x: number, y: number) => {
-    const classes = ['cell-base']
-    if (y === 4 || y === 5) {
-        classes.push('has-river') // “楚河汉界”两边
+    } catch (err) {
+        selectedShogi.value = null
+        selectedShogiMoveList.value = []
+        //TODO: 点击别的棋子的时候也要消除hightlight的同时增加新的
     }
-    if (y === 5) {
-        classes.push('river-line') // 去掉第6行上边线
-    }
-    return classes
+}
+// clear the hightlight if click the board
+function clearSelection() {
+    selectedShogi.value = null;
+    selectedShogiMoveList.value = [];
+    selectedShogiEatList.value = []
 }
 </script>
 
 <style scoped>
 /* Chiyori */
-.chessBoard{
+.chessBoard {
     position: relative;
-    display: grid;   
+    display: grid;
 }
-.chessRow{
+
+.chessRow {
     display: flex;
 }
-.chessCell{
+
+.chessCell {
     width: 60px;
-    height: 60px;    
+    height: 60px;
 }
-.chessCellCon{
+
+.chessCellCon {
     background-color: #fff1cc;
-    border: 1px solid black;   
+    border: 1px solid black;
 }
-.chessControlCon{
+
+.chessControlCon {
     position: absolute;
     top: -30px;
     left: -30px;
 }
-.chessControlCell{
+
+.chessControlCell {
     display: grid;
     place-items: center;
 }
 
-
-/* .chess-board {
-    position: relative;
-    width: 480px;
-    height: 540px;
-    margin: auto;
-    background-color: #fdf6e3;
-    border: 2px solid #000;
-    display: grid;
-    grid-template-rows: repeat(9, 1fr);
-    grid-template-columns: repeat(8, 1fr);
-    gap: 0;
+.hightlight {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: rgb(247, 90, 247);
+    position: absolute;
 }
 
-.row {
-    display: contents;
-}
-
-.cell-base {
+.eatshogi-hightlight {
+    position: absolute;
+    width: 50px;
+    height: 50px;
     box-sizing: border-box;
-    border-right: 1px solid #333;
-    border-bottom: 1px solid #333;
+    border: 2px solid rgb(35, 214, 29);
+    /* 边框颜色 */
+    background-color: transparent;
+    border-radius: 100%;
+    z-index: 2;
 }
 
 /* .cell.river-line {
@@ -121,5 +136,5 @@ const getCellClass = (x: number, y: number) => {
     justify-content: space-between;
     padding: 0 60px;
     pointer-events: none;
-} */ 
+} */
 </style>

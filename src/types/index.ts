@@ -1,4 +1,5 @@
 export * from "./shogiType"
-export * from "./gameType"
-export * from "./playerTypes"
+export * from "./gameTypes"
+export * from "./gameTypes"
+
 

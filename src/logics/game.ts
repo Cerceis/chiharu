@@ -1,58 +1,25 @@
-import { z } from "zod";
-import { PlayerColorSchema } from "@/types";
+import {ref} from "vue"
+import { type GameBoard, type Players, type GameController, type ShogiTemplate, GameControllerSchema } from "@/types";
+import { shogiController } from "@/logics/shogi";
+import { shogiMap } from "@/stores/shogiMap";
+import { board, controller, players } from "@/stores/gameMap";
+import { changeTurn, startGame } from "./clock";
 
-//board
-export const DotSchema = z.object({
-    x: z.number(),
-    y: z.number(),
-    shogiId: z.string().nullable()
-});
-export type Dot = z.infer<typeof DotSchema>;
-export type GameBoard = Dot[][];
-
+//board 
 export const generateEmptyBoard = (): GameBoard =>
     Array.from({ length: 10 }, (_, y) =>
         Array.from({ length: 9 }, (_, x) => ({
             x,
             y,
-            shogiId: null
+            shogi: null
         }))
     );
 
-//GameController
-export const PlayerSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    color: PlayerColorSchema
-}) // player schema
-export type Player = z.infer<typeof PlayerSchema>//player type
-export type Players = {
-    Red: Player;
-    Black: Player;
-};
+//Players　Factory　Function
 export const createPlayers = (): Players => ({
-    Red: { id: '', name: '', color: 'Red' },
-    Black: { id: '', name: '', color: 'Black' }
-});//Players　Factory　Function
-
-export const GameStateSchema = z.enum(["BeforeStart", "Progress", "Over"])
-// gamestate schema
-export type GameState = z.infer<typeof GameStateSchema>
-
-export const GameControllerSchema = z.object({
-    time: z.object({
-        RedPlayerTime: z.number(),   // 单位：秒
-        BlackPlayerTime: z.number()
-    }),//红色和黑色分别有时间的显示且为15分钟的倒计时 操作时才会进行时间流逝，时间结束游戏输
-    state: GameStateSchema, //"BeforeStart","Progress","Over"
-    playersInControl: z.object({
-        Red: z.string(),   // PlayerId 
-        Black: z.string()
-    }),
-    turn: PlayerColorSchema //"red","black"
-});//GameController schema
-
-export type GameController = z.infer<typeof GameControllerSchema>;
+    Red: { id: '001', name: '', color: 'Red' },
+    Black: { id: '002', name: '', color: 'Black' }
+});
 
 // GameController function
 export const createGameController = (): GameController => ({
@@ -62,16 +29,65 @@ export const createGameController = (): GameController => ({
     },
     state: "BeforeStart",
     playersInControl: { Red: "abcd01", Black: "abcd02" },
-    turn: "Red"
+    turn: "Red",
+    winner:null
 });
 
-//生成棋盘和棋盘init
+
+export const placeShogiOnBoard = (template: ShogiTemplate) => {
+    if(!board.value) return;
+    const type = template.shogiType
+    for (let i = 0; i < template.loc.length; i++) {
+        const shogi = shogiController.new(type, template.label, template.loc[i].x, template.loc[i].y,template.loc[i].color,
+            template.shogiMoveId,template.shogiEatId
+        )
+        for (let y = 0; y < board.value.length; y++){
+            const row = board.value[y];
+            for (let x = 0; x < row.length; x++){
+                const cell = row[x];
+                if(
+                    cell.x === shogi.x &&
+                    cell.y === shogi.y &&
+                    cell.shogi === null
+                ){
+                    // 置く
+                    board.value[y][x].shogi = shogi;
+                }
+                
+            }
+        }
+        
+    }
+}
+
+
+//initGame function
+
 export const initGame = () => {
-    createGameController()
-    generateEmptyBoard();
-    const players: Player[] = [];
+    board.value = generateEmptyBoard();
+    controller.value = createGameController()
+    //players.value = createPlayers()
+    startGame(controller.value)
+    
+    //const fruits =["apple", "banana"];
+    ///fruits.forEach()
+    //for(let i = 0; i < fruits.length; i++){}
+
+    for (const prop in shogiMap) {
+        const property = prop as keyof typeof shogiMap;
+        const shogiTemplate = shogiMap[property];
+        if (!shogiTemplate) continue;
+        placeShogiOnBoard(shogiTemplate);
+    }
 
 }
+
+//TODO: 自己回合只能点自己颜色的棋子 否则不许点击
+// 2.完成移动或吃子后换对方顺序
+// 3.将如果被吃掉游戏中支
+// 4.设置投降和和棋以及悔棋按钮来确保游戏的可玩性
+//5.一方时间到了的话 判定到时间的输
+
 
 
 

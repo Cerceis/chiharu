@@ -1,13 +1,15 @@
 import { z } from "zod";
+import { PlayerColorSchema, type GameBoard, type PlayerColor } from "./gameTypes";
+import type { number } from "zod/v4";
 export const ShogiTypeSchema = z.enum([
-    "che", "ma", "xiang", "shi", "jiang", "pao", "bing"
+	"che", "ma", "xiang", "shi", "jiang", "pao", "bing", "chi"
 ])
 export type ShogiType = z.infer<typeof ShogiTypeSchema>;
 
 export const ShogiLocSchema = z.object({
-    x: z.number(),
-    y: z.number(),
-    // TODO: PlayerColor
+	x: z.number(),
+	y: z.number(),
+	color: PlayerColorSchema
 })
 
 export type ShogiLoc = z.infer<typeof ShogiLocSchema>;
@@ -24,23 +26,24 @@ export type ShogiTemplate = z.infer<typeof ShogiTemplateSchema>;
 export const ShogiMapSchema = z.record(ShogiTypeSchema, ShogiTemplateSchema);
 export type ShogiMap = z.infer<typeof ShogiMapSchema>;
 
-export const ShogiSchema = z.object({
+export const ShogiWithoutFuncSchema = z.object({
 	id: z.string(),
-	// TODO: PlayerColor
+	color:PlayerColorSchema,
 	type: ShogiTypeSchema,
+	label: z.string(),
 	x: z.number(),
 	y: z.number(),
-	// TODO: move
-	// TODO: eat
 })
-export type Shogi = z.infer<typeof ShogiSchema>;
+export type ShogiWithoutFunc = z.infer<typeof ShogiWithoutFuncSchema>;
+export type Shogi = ShogiWithoutFunc & {
+	moveFunc: (shogi:Shogi, board: GameBoard) => {x: number, y: number}[],
+	eatFunc: (shogi:Shogi, board: GameBoard) => {x: number, y: number}[],
+}
 
 // Shogiのmain コントローラー
 // Shogiのアクションはほとんどここから呼び起こす
 export type ShogiController = {
-	new: (type: ShogiType, x: number, y: number) => Shogi,
-	move: (shogi: Shogi) => void, //TODO: Add GameBoard to param; WARN: Might not need, move to GameController
-	eat: (shogi: Shogi) => void, // TODO: Add GameBoard to param; WARN: Might not need, move to GameController
+	new: (type: ShogiType, label: string, x: number, y: number,color:PlayerColor,shogiMoveId:string,shogiEatId:string) => Shogi,
 }
 
 
