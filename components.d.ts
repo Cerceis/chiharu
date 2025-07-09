@@ -11,8 +11,12 @@ declare module 'vue' {
     Gameboard: typeof import('./src/components/game/Gameboard.vue')['default']
     Graveyard: typeof import('./src/components/game/Graveyard.vue')['default']
     Header: typeof import('./src/components/global/Header.vue')['default']
+    PlayerCard: typeof import('./src/components/global/PlayerCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Shogi: typeof import('./src/components/game/Shogi.vue')['default']
+    ShoGi: typeof import('./src/components/game/ShoGi.vue')['default']
+    'Shogi.': typeof import('./src/components/game/Shogi..vue')['default']
+    ShogiPiece: typeof import('./src/components/game/ShogiPiece.vue')['default']
   }
 }

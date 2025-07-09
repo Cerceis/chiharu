@@ -1,15 +1,22 @@
-import { type Shogi, type ShogiController, type ShogiType } from "@/types";
+import { type PlayerColor, type Shogi, type ShogiController, type ShogiType } from "@/types";
+import { shogiMoveMap } from "@/stores/shogiMoveMap";
+import { shogiEatMap } from "@/stores/shogiEatMap";
+import { Generate } from "cerceis-lib";
 
-
-export const shogi: ShogiController = {
-	new: (type: ShogiType, x: number, y: number) => {
+export const shogiController: ShogiController = {
+	new: (type: ShogiType, label: string, x: number, y: number,color:PlayerColor,shogiMoveId:string,shogiEatId:string) => {
 		const tmpShogi: Shogi = {
-			id: "1123",
+			id: Generate.objectId(),
+			label,
 			type,
-			x, y
+			x, y,
+			color,
+			moveFunc: shogiMoveMap[shogiMoveId],
+			eatFunc:shogiEatMap[shogiEatId]
+
 		}
 		return tmpShogi;
 	},
-	move: (shogi: Shogi) => {}, // WARN: ShogiController
-	eat: (shogi: Shogi) => {}, // WARN: ShogiController
 }
+
+

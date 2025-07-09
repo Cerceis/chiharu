@@ -1,5 +1,6 @@
-import { type GameController } from "./game";
-import { reactive, onUnmounted } from 'vue'
+import type { GameController, PlayerColor } from "@/types";
+import { reactive } from 'vue'
+import { controller } from '@/stores/gameMap'
 
 export let timer: ReturnType<typeof setInterval> | null = null;
 export const displayTime = reactive({
@@ -33,7 +34,7 @@ const startCountdown = (controller: GameController) => {
 }
 // 每次切换回合时调用
 export const startGame = (controller: GameController) => {
-    controller.state = "Progress";
+    controller.state = "Progress"
     onTurnChange(controller);
 }//当游戏状开始后更改状态为progress 开始倒计时
 
@@ -42,8 +43,20 @@ export const onTurnChange = (controller: GameController) => {
 }
 // 每次更换顺序时重新调用计时器
 
-onUnmounted(() => {
-    if (timer) clearInterval(timer)
-})
+// 获取剩余时间百分比（用于进度环）
+export const getProgress = (color: PlayerColor) => {
+    if (!controller.value) return 0;
+    const seconds = controller.value.time[`${color}PlayerTime`]
+    return (seconds / 900) * 100
+}
+
+export const changeTurn = () => {
+    if (!controller.value) return;
+    controller.value.turn = controller.value.turn === "Red" ? "Black" : "Red"
+    onTurnChange(controller.value)
+}
+
+
+
 
 
